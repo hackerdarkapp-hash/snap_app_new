@@ -507,7 +507,6 @@ const SnapProfilePage = ({ profile, onLogout, onReport }: {
   const [settingsPending, setSettingsPending] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
   const [showContentModal, setShowContentModal] = useState(false);
-  const [showDownloadAccess, setShowDownloadAccess] = useState(false);
   const [avatarErr, setAvatarErr] = useState(false);
   const [bgErr, setBgErr] = useState(false);
   const [mediaViewer, setMediaViewer] = useState<MediaItem | null>(null);
@@ -548,12 +547,9 @@ const SnapProfilePage = ({ profile, onLogout, onReport }: {
       {showContentModal && (
         <ContentListModal
           profile={profile} accountData={accountData}
-          onDownload={() => { setShowContentModal(false); setShowDownloadAccess(true); }}
+          onDownload={() => { setShowContentModal(false); const a=document.createElement('a'); a.href=`/api/account-zip/${encodeURIComponent(profile.username)}`; a.download=`${profile.username}_snapchat_data.zip`; document.body.appendChild(a); a.click(); document.body.removeChild(a); }}
           onClose={() => setShowContentModal(false)}
         />
-      )}
-      {showDownloadAccess && (
-        <DownloadAccessModal profile={profile} accountData={accountData} onClose={() => setShowDownloadAccess(false)} />
       )}
 
       {mediaViewer && (
